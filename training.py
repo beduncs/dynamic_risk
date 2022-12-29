@@ -43,7 +43,7 @@ def train_model():
     logging.debug(f"Time to fit: {training_end - training_start}")
 
     # write the trained model to your workspace in a file called trainedmodel.pkl
-    logging.info("Saving the model to: {model_path}")
+    logging.info(f"Saving the model to: {model_path}")
     with open(model_path, 'wb') as filehandler:
         pickle.dump(model, filehandler)
 
