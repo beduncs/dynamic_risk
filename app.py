@@ -8,7 +8,7 @@ import logging
 
 from pathlib import Path
 from diagnostics import model_predictions, dataframe_summary, dataframe_missing, execution_time, outdated_packages_list
-from scoring import score_model
+from scoring import main as score_model
 
 
 logging.basicConfig(level=logging.DEBUG)
