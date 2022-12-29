@@ -16,7 +16,7 @@ with open('config.json', 'r') as f:
     config = json.load(f)
 
 prod_deployment_path = Path(config['prod_deployment_path'])
-test_data_path = Path(config['test_data_path']) / 'testdata.csv'
+data_path = Path(config['output_folder_path']) / 'finaldata.csv'
 model_path = Path(config['output_model_path']) / 'trainedmodel.pkl'
 
 # Function to get model predictions
@@ -37,7 +37,7 @@ def model_predictions(dataset: pd.DataFrame):
 
     # form predictions
     logging.info("Using model for inference.")
-    predictions = model.predict(data_X)
+    predictions = model.predict(data_X).tolist()
     logging.debug(f"Predictions: {predictions}")
 
     return predictions
@@ -113,13 +113,14 @@ def outdated_packages_list():
     # get a list of outaged packages in use.
     logging.info("Calling pip to check outdated dependecies.")
     outdated = subprocess.check_output(['pip', 'list', '--outdated'])
+
     logging.debug(f"Outdated dependencies: {outdated}")
 
-    return outdated
+    return str(outdated)
 
 
 if __name__ == '__main__':
-    dataset = pd.read_csv(test_data_path)
+    dataset = pd.read_csv(data_path)
     model_predictions(dataset)
     dataframe_summary(dataset)
     dataframe_missing(dataset)

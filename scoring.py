@@ -47,6 +47,8 @@ def score_model():
     with open(score_path, 'w') as score_file:
         score_file.write(f'{f1score}\n')
 
+    return f1score
+
 
 if __name__ == '__main__':
     score_model()
