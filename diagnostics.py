@@ -9,8 +9,6 @@ import logging
 import pickle
 import subprocess
 
-logging.basicConfig(level=logging.DEBUG)
-
 # Load config.json and get environment variables
 with open('config.json', 'r') as f:
     config = json.load(f)

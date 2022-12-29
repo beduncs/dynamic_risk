@@ -7,20 +7,10 @@ from pathlib import Path
 from sklearn import metrics
 from diagnostics import model_predictions
 
-logging.basicConfig(level=logging.DEBUG)
-
-# Load config.json and get path variables
-with open('config.json', 'r') as f:
-    config = json.load(f)
-
-output_model_path = Path(config['output_model_path'])
-test_data_path = Path(config['test_data_path']) / 'testdata.csv'
-matrix_output_path = Path(config['test_data_path']) / 'confusionmatrix.png'
-
 # Function for reporting
 
 
-def score_model():
+def score_model(test_data_path, matrix_output_path):
     # calculate a confusion matrix using the test data and the deployed model
     # write the confusion matrix to the workspace
 
@@ -46,5 +36,17 @@ def score_model():
     plt.savefig(matrix_output_path)
 
 
+def main():
+    # Load config.json and get path variables
+    with open('config.json', 'r') as f:
+        config = json.load(f)
+
+    test_data_path = Path(config['test_data_path']) / 'testdata.csv'
+    matrix_output_path = Path(
+        config['output_model_path']) / 'confusionmatrix.png'
+
+    score_model(test_data_path, matrix_output_path)
+
+
 if __name__ == '__main__':
-    score_model()
+    main()

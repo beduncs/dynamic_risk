@@ -6,22 +6,14 @@ from pathlib import Path
 
 logging.basicConfig(level=logging.DEBUG)
 
-# Load config.json and correct path variable
-with open('config.json', 'r') as f:
-    config = json.load(f)
-
-model_path = Path(config['output_model_path']) / 'trainedmodel.pkl'
-score_path = Path(config['output_model_path']) / 'latestscore.txt'
-ingest_record_path = Path(config['output_folder_path']) / 'ingestedfiles.txt'
-prod_deployment_path = Path(config['prod_deployment_path'])
-deployed_model_path = prod_deployment_path / model_path.name
-deployed_score_path = prod_deployment_path / score_path.name
-deployed_ingest_path = prod_deployment_path / ingest_record_path.name
-
 # function for deployment
 
 
-def migrate_deployment_files():
+def migrate_deployment_files(model_path, score_path, ingest_record_path, prod_deployment_path):
+    deployed_model_path = prod_deployment_path / model_path.name
+    deployed_score_path = prod_deployment_path / score_path.name
+    deployed_ingest_path = prod_deployment_path / ingest_record_path.name
+
     # copy the latest pickle file, the latestscore.txt value, and the ingestfiles.txt file into the deployment directory
     logging.info("Copying deployment files.")
 
@@ -40,5 +32,20 @@ def migrate_deployment_files():
     shutil.copy(ingest_record_path, deployed_ingest_path)
 
 
+def main():
+    # Load config.json and correct path variable
+    with open('config.json', 'r') as f:
+        config = json.load(f)
+
+    model_path = Path(config['output_model_path']) / 'trainedmodel.pkl'
+    score_path = Path(config['output_model_path']) / 'latestscore.txt'
+    ingest_record_path = Path(
+        config['output_folder_path']) / 'ingestedfiles.txt'
+    prod_deployment_path = Path(config['prod_deployment_path'])
+
+    migrate_deployment_files(model_path, score_path,
+                             ingest_record_path, prod_deployment_path)
+
+
 if __name__ == '__main__':
-    migrate_deployment_files()
+    main()

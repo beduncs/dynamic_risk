@@ -1,25 +1,12 @@
 import json
 import logging
-
-from datetime import datetime
-from glob import glob
 from pathlib import Path
-
 import pandas as pd
-import numpy as np
-
-logging.basicConfig(level=logging.DEBUG)
-
-# Load config.json and get input and output paths
-with open('config.json', 'r') as f:
-    config = json.load(f)
-
-input_folder_path = Path(config['input_folder_path'])
-output_folder_path = Path(config['output_folder_path'])
-
 
 # Function for data ingestion
-def merge_multiple_dataframe():
+
+
+def merge_multiple_dataframe(input_folder_path, output_folder_path):
     # check for datasets, compile them together, and write to an output file
 
     # Gathering csv paths
@@ -58,5 +45,17 @@ def merge_multiple_dataframe():
             output_record.write(f'{file_path}\n')
 
 
+def main():
+
+    # Load config.json and get input and output paths
+    with open('config.json', 'r') as f:
+        config = json.load(f)
+
+    input_folder_path = Path(config['input_folder_path'])
+    output_folder_path = Path(config['output_folder_path'])
+
+    merge_multiple_dataframe(input_folder_path, output_folder_path)
+
+
 if __name__ == '__main__':
-    merge_multiple_dataframe()
+    main()

@@ -5,20 +5,10 @@ import pandas as pd
 from sklearn import metrics
 from pathlib import Path
 
-logging.basicConfig(level=logging.DEBUG)
-
-# Load config.json and get path variables
-with open('config.json', 'r') as f:
-    config = json.load(f)
-
-test_data_path = Path(config['test_data_path']) / 'testdata.csv'
-model_path = Path(config['output_model_path']) / 'trainedmodel.pkl'
-score_path = Path(config['output_model_path']) / 'latestscore.txt'
-
 # Function for model scoring
 
 
-def score_model():
+def score_model(model_path, test_data_path, score_path):
     # this function should take a trained model, load test data, and calculate an F1 score for the model relative to the test data
     # it should write the result to the latestscore.txt file
 
@@ -50,5 +40,18 @@ def score_model():
     return f1score
 
 
+def main():
+    # Load config.json and get path variables
+    with open('config.json', 'r') as f:
+        config = json.load(f)
+
+    test_data_path = Path(config['test_data_path']) / 'testdata.csv'
+    model_path = Path(config['output_model_path']) / 'trainedmodel.pkl'
+    score_path = Path(config['output_model_path']) / 'latestscore.txt'
+
+    # Score model
+    score_model(model_path, test_data_path, score_path)
+
+
 if __name__ == '__main__':
-    score_model()
+    main()

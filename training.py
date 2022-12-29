@@ -6,18 +6,9 @@ import pandas as pd
 from pathlib import Path
 from sklearn.linear_model import LogisticRegression
 
-logging.basicConfig(level=logging.DEBUG)
-
-# Load config.json and get path variables
-with open('config.json', 'r') as f:
-    config = json.load(f)
-
-dataset_csv_path = Path(config['output_folder_path']) / 'finaldata.csv'
-model_path = Path(config['output_model_path']) / 'trainedmodel.pkl'
-
 
 # Function for training the model
-def train_model():
+def train_model(dataset_csv_path, model_path):
     logging.info("Initializing the model.")
 
     # gather the data
@@ -48,5 +39,16 @@ def train_model():
         pickle.dump(model, filehandler)
 
 
+def main():
+    # Load config.json and get path variables
+    with open('config.json', 'r') as f:
+        config = json.load(f)
+
+    dataset_csv_path = Path(config['output_folder_path']) / 'finaldata.csv'
+    model_path = Path(config['output_model_path']) / 'trainedmodel.pkl'
+
+    train_model(dataset_csv_path, model_path)
+
+
 if __name__ == '__main__':
-    train_model()
+    main()
