@@ -26,7 +26,7 @@ def train_model():
     logging.debug(f"Data head: {training_data.head()}")
     training_X = training_data[['lastmonth_activity', 'lastyear_activity',
                                 'number_of_employees']].values.reshape(-1, 3)
-    training_y = training_data['exited'].values.reshape(-1, 1)
+    training_y = training_data['exited'].values.reshape(-1, 1).ravel()
 
     # use this logistic regression for training
     lr = LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
